@@ -1,0 +1,28 @@
+Parameters:
+    InstanceType:
+        Description: WebServer EC2 instance type (has default, AllowedValues)
+        Type: String
+        Default: t2.micro
+        AllowedValues:
+            - t1.micro
+            - t2.nano
+            - t2.micro
+            - t2.small
+        ConstraintDescription: must be a valid EC2 instance type.
+    KeyName:
+        Description: Name of an existing EC2 KeyPair to enable SSH access to the instances. Linked to AWS Parameter
+        Type: AWS::EC2::KeyPair::KeyName
+        ConstraintDescription: must be the name of an existing EC2 KeyPair.
+    SecurityGroupIds:
+        Description: Security groups that can be used to access the EC2 instances
+        Type: "List<AWS::EC2::SecurityGroup::Id>"
+        ConstraintDescription: must be list of EC2 security group ids
+
+Resources:
+    MyEC2Instance:
+        Type: "AWS::EC2::Instance"
+        Properties:
+            InstanceType: !Ref InstanceType
+            ImageId: "ami-8c122be9"
+            KeyName: !Ref KeyName
+            SecurityGroupIds: !Ref SecurityGroupIds
